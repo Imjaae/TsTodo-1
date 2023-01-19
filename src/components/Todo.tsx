@@ -1,9 +1,16 @@
 import React, { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
 
-interface TodoProps {
+interface IsetTodos {
+  setTodos: boolean | number | string;
+  filter: any; // any 라니 !!
+  map: any; //any 라니 !!!
+}
+
+export interface TodoProps {
   item: TodoItem;
   isActive: boolean;
-  setTodos: Dispatch<SetStateAction<object[]>>;
+  setTodos: Dispatch<SetStateAction<IsetTodos>>;
+  todos: Dispatch<SetStateAction<IsetTodos>>;
 }
 
 interface TodoItem {
@@ -16,12 +23,14 @@ interface TodoItem {
 
 function Todo({ item, isActive, setTodos }: TodoProps) {
   const handleDeleteButtonClick = () => {
-    setTodos((prev) => prev.filter((test) => test.id !== item.id));
+    setTodos((prev) =>
+      prev.filter((test: { id: number }) => test.id !== item.id)
+    );
   };
 
   const handleSwitchButtonClick = () => {
     setTodos((prev) =>
-      prev.map((test) => {
+      prev.map((test: { id: number; isDone: boolean }) => {
         if (test.id === item.id) {
           return { ...test, isDone: !test.isDone };
         } else {
